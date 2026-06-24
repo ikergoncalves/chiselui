@@ -1,0 +1,34 @@
+/* Select borrows the field layout (.chs-field*) and control surface (.chs-input)
+   from Input — see Select.tsx. Everything here is just the native-<select>
+   specifics: strip the OS chrome and draw our own caret. */
+
+/* `select.chs-select` has specificity (0,1,1), which outranks the bare
+   `.chs-input` (0,1,0). That guarantees these win regardless of the order Rollup
+   happens to emit the two stylesheets in. */
+select.chs-select {
+  display: block;
+  width: 100%;
+
+  padding: var(--chs-field-pad-y) var(--chs-field-pad-x);
+  /* Reserve space on the trailing edge for the caret. */
+  padding-inline-end: calc(var(--chs-field-pad-x) + var(--space-6));
+  font-size: var(--chs-field-font);
+  color: var(--color-neutral-900);
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  /* Hand-drawn chevron, inlined as a data URI to keep the zero-asset, token-only
+     philosophy. Stroke is hard-coded to --color-neutral-500 (#6b7280) because a
+     background-image SVG can't read `currentColor`. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--chs-field-pad-x) center;
+  background-size: 1rem 1rem;
+}
+
+select.chs-select:disabled {
+  cursor: not-allowed;
+  color: var(--color-neutral-400);
+}
