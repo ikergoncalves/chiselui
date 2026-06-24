@@ -1,0 +1,125 @@
+.chs-datatable {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  font-family: var(--font-sans);
+  color: var(--color-neutral-800);
+}
+
+/* Horizontal scroll for narrow viewports without breaking the layout around it. */
+.chs-datatable__scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.chs-datatable__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-md);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Header                                                                    */
+/* ------------------------------------------------------------------------- */
+.chs-datatable__table thead th {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-600);
+  background-color: var(--color-neutral-50);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+/* The sortable header is a real button so it's keyboard-operable and focusable. */
+.chs-datatable__sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+
+  margin: calc(var(--space-1) * -1) calc(var(--space-2) * -1);
+  padding: var(--space-1) var(--space-2);
+
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.chs-datatable__sort-btn:hover {
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-100);
+}
+
+.chs-datatable__sort-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Both chevrons sit dim until their direction is the active one. */
+.chs-datatable__sort-icon path {
+  opacity: 0.3;
+  transition: opacity var(--transition-fast);
+}
+
+.chs-datatable__sort-icon path.is-active {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Body                                                                      */
+/* ------------------------------------------------------------------------- */
+.chs-datatable__table tbody td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-neutral-800);
+}
+
+/* No divider under the final row — the container border closes the table. */
+.chs-datatable__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.chs-datatable__row:hover td {
+  background-color: var(--color-neutral-50);
+}
+
+.chs-datatable__empty {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  color: var(--color-neutral-500);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Footer / pagination                                                       */
+/* ------------------------------------------------------------------------- */
+.chs-datatable__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.chs-datatable__count {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+
+.chs-datatable__pager {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.chs-datatable__page-status {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+}
