@@ -26,7 +26,12 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
+      // Externalize React and any declared runtime dependency (@floating-ui/*) so
+      // they are resolved from the consumer's node_modules instead of bundled in.
+      external: (id) =>
+        ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'].includes(
+          id,
+        ) || id.startsWith('@floating-ui/'),
       output: {
         assetFileNames: 'chiselui.[ext]',
         globals: {

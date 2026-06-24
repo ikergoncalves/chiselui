@@ -1,0 +1,39 @@
+.chs-tooltip {
+  /* Local stacking context knob — kept off :root so consumers can raise just the
+     tooltip layer without touching global tokens. */
+  --chs-tooltip-z: 9000;
+
+  z-index: var(--chs-tooltip-z);
+  width: max-content;
+  max-width: 240px;
+
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--color-neutral-900);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.4;
+
+  /* 150ms matches --transition-fast; written out because `animation` needs a bare
+     duration, not the token's "duration + easing" pair. */
+  animation: chs-tooltip-fade-in 150ms ease-out;
+}
+
+@keyframes chs-tooltip-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Honour reduced-motion: appear instantly rather than fading. */
+@media (prefers-reduced-motion: reduce) {
+  .chs-tooltip {
+    animation: none;
+  }
+}
