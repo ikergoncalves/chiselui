@@ -1,0 +1,33 @@
+/**
+ * chiselui — global base
+ * Applies token-driven defaults to the document. Optional for consumers,
+ * but pairs with reset.css to give a consistent typographic baseline.
+ */
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-neutral-900);
+  background-color: var(--color-surface);
+}
+
+body {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+}
+
+:focus-visible {
+  outline-color: var(--color-primary);
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}

@@ -1,0 +1,81 @@
+.chs-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+.chs-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.chs-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Sizes                                                                     */
+/* ------------------------------------------------------------------------- */
+.chs-button--sm {
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-3);
+}
+
+.chs-button--md {
+  font-size: var(--font-size-md);
+  padding: var(--space-2) var(--space-4);
+}
+
+.chs-button--lg {
+  font-size: var(--font-size-lg);
+  padding: var(--space-3) var(--space-6);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Variants                                                                  */
+/* ------------------------------------------------------------------------- */
+.chs-button--primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.chs-button--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.chs-button--secondary {
+  background-color: var(--color-surface);
+  color: var(--color-neutral-800);
+  border-color: var(--color-border);
+}
+
+.chs-button--secondary:hover:not(:disabled) {
+  background-color: var(--color-neutral-100);
+}
+
+.chs-button--danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+.chs-button--danger:hover:not(:disabled) {
+  filter: brightness(0.93);
+}

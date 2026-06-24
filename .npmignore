@@ -1,0 +1,15 @@
+# Source & tooling — only the built `dist` is published (see package.json "files")
+src
+tests
+.storybook
+.github
+node_modules
+storybook-static
+coverage
+
+vite.config.ts
+tsconfig.json
+.eslintrc.cjs
+
+*.log
+*.tsbuildinfo
