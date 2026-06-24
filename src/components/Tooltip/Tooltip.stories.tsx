@@ -10,6 +10,9 @@ const meta = {
     content: 'I am a tooltip',
     placement: 'top',
     delay: 300,
+    // A default trigger satisfies the required `children` prop; every story below
+    // supplies its own via a custom `render`.
+    children: <Button>Hover me</Button>,
   },
   argTypes: {
     placement: {
