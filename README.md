@@ -1,11 +1,22 @@
 # chiselui
 
-> A precision React design system built with CSS Variables.
+> Precisely chiseled React components
 
-`chiselui` is a TypeScript-first component library. Every component is styled
-exclusively through design tokens exposed as CSS custom properties — **no
-Tailwind, no CSS-in-JS** — so theming is a matter of overriding a handful of
-`--color-*` / `--space-*` variables.
+[![CI](https://github.com/ikergoncalves/chiselui/actions/workflows/ci.yml/badge.svg)](https://github.com/ikergoncalves/chiselui/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/chiselui)](https://www.npmjs.com/package/chiselui)
+[![license](https://img.shields.io/npm/l/chiselui)](https://github.com/ikergoncalves/chiselui/blob/main/LICENSE)
+
+## Why chiselui
+
+I built chiselui on plain CSS Variables because I wanted theming to be a runtime
+concern the browser already understands — override a handful of `--color-*` /
+`--space-*` tokens on `:root` and the whole system re-themes, with no Tailwind
+build step to configure and no CSS-in-JS runtime shipping styles on every render.
+I reach for Vite library mode rather than a pre-wired bundler kit so the build
+stays a few lines I actually own: ESM + CJS output and hand-checked `.d.ts`,
+nothing hidden behind a framework. And unlike shadcn/ui, chiselui is a real
+versioned npm dependency you `npm install` and upgrade — not source you copy into
+your repo and then maintain by hand.
 
 ## Install
 
@@ -13,69 +24,84 @@ Tailwind, no CSS-in-JS** — so theming is a matter of overriding a handful of
 npm install chiselui
 ```
 
-`react` and `react-dom` (v18 or v19) are peer dependencies.
+`react` and `react-dom` (**v18+**) are peer dependencies — install them in your
+app if you haven't already.
 
-## Usage
+## Quick start
 
 ```tsx
-import { Button } from 'chiselui'
+import { Button, ToastProvider, useToast } from 'chiselui'
 import 'chiselui/styles.css' // tokens + reset + base + component styles
+
+function SaveButton() {
+  const { toast } = useToast()
+  return (
+    <Button
+      variant="primary"
+      size="md"
+      onClick={() => toast({ message: 'Saved!', variant: 'success' })}
+    >
+      Save
+    </Button>
+  )
+}
 
 export function App() {
   return (
-    <Button variant="primary" size="md" onClick={() => alert('chiseled!')}>
-      Click me
-    </Button>
+    <ToastProvider>
+      <SaveButton />
+    </ToastProvider>
   )
 }
 ```
 
-### Theming
+## Theming
 
-Override any token on `:root` (or any scope) to retheme the whole system:
+Every component reads from CSS custom properties, so retheming is just a matter
+of overriding tokens on `:root` (or any scope):
 
 ```css
 :root {
   --color-primary: #0ea5e9;
   --color-primary-hover: #0284c7;
   --radius-md: 6px;
+  --space-4: 1rem;
 }
 ```
 
+## Components
+
+| Component   | Status     | Description                                              |
+| ----------- | ---------- | -------------------------------------------------------- |
+| `Button`    | ✅ Stable  | Primary / secondary / ghost actions with size variants.  |
+| `Badge`     | ✅ Stable  | Compact status and category labels.                      |
+| `Skeleton`  | ✅ Stable  | Loading placeholders that match content shape.           |
+| `Input`     | ✅ Stable  | Text field with label, hint and error states.            |
+| `Select`    | ✅ Stable  | Native-backed select with consistent styling.            |
+| `Tooltip`   | ✅ Stable  | Accessible, positioned hover/focus hints.                |
+| `Toast`     | ✅ Stable  | Queue-based notifications via `ToastProvider`/`useToast`. |
+| `Modal`     | ✅ Stable  | Dialog with focus trap and scroll locking.               |
+| `Combobox`  | ✅ Stable  | Autocomplete select with full keyboard navigation.       |
+| `DataTable` | ✅ Stable  | Tabular data with column sorting and pagination.         |
+
+## Documentation
+
+Browse the live Storybook with interactive examples and prop tables:
+
+**https://ikergoncalves.github.io/chiselui**
+
 ## Development
 
-| Script                  | Description                                   |
-| ----------------------- | --------------------------------------------- |
-| `npm run dev`           | Vite dev server                               |
-| `npm run storybook`     | Storybook on port 6006                        |
-| `npm run test`          | Run the Vitest suite once                     |
-| `npm run test:watch`    | Vitest in watch mode                          |
-| `npm run lint`          | ESLint over `src`                             |
-| `npm run typecheck`     | `tsc --noEmit`                                |
-| `npm run build`         | Type-check + Vite library build (`dist/`)     |
-| `npm run build-storybook` | Static Storybook build                      |
-
-## Tech stack
-
-- **Vite 5** (library mode) — ESM + CJS output, `.d.ts` via `vite-plugin-dts`
-- **TypeScript 5** — `strict`, `noUncheckedIndexedAccess`
-- **CSS Variables** — design tokens in `src/tokens/index.css`
-- **Storybook 8** — `@storybook/react-vite`
-- **Vitest + Testing Library** — unit tests
-- **GitHub Actions** — lint · test · build on every push & PR
-
-## Project structure
-
-```
-chiselui/
-  src/
-    components/   # one directory per component
-    tokens/       # design tokens as CSS custom properties
-    styles/       # reset.css + base global
-    index.ts      # barrel of exports
-  .storybook/     # Storybook config
-  tests/          # test setup
-```
+| Script                    | Description                                 |
+| ------------------------- | ------------------------------------------- |
+| `npm run dev`             | Vite dev server                             |
+| `npm run build`           | Type-check + Vite library build (`dist/`)   |
+| `npm run storybook`       | Storybook on port 6006                      |
+| `npm run build-storybook` | Static Storybook build (`storybook-static`) |
+| `npm run test`            | Run the Vitest suite once                   |
+| `npm run test:watch`      | Vitest in watch mode                        |
+| `npm run lint`            | ESLint over `src`                           |
+| `npm run typecheck`       | `tsc --noEmit`                              |
 
 ## License
 
