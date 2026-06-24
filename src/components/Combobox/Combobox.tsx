@@ -89,14 +89,15 @@ export function Combobox({
     if (!open) setInputValue(selectedOption?.label ?? '')
   }, [open, selectedOption?.label])
 
-  // Keep the active option scrolled into view as it moves.
+  // Keep the active option scrolled into view as it moves. The option id is
+  // inlined here (rather than calling the `optionId` helper) so the effect's
+  // only real inputs — `open`, `activeIndex` and the stable `baseId` — are all
+  // honest, explicit dependencies.
   useEffect(() => {
     if (!open || activeIndex < 0) return
-    const el = document.getElementById(optionId(activeIndex))
+    const el = document.getElementById(`${baseId}-option-${activeIndex}`)
     el?.scrollIntoView({ block: 'nearest' })
-    // optionId is derived from the stable baseId, so it isn't a meaningful dep.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, activeIndex])
+  }, [open, activeIndex, baseId])
 
   useOnClickOutside(
     wrapperRef,
