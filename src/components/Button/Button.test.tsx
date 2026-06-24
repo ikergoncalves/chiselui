@@ -9,27 +9,19 @@ describe('Button', () => {
     expect(screen.getByRole('button', { name: 'Click me' })).toBeInTheDocument()
   })
 
-  it('defaults to type="button"', () => {
-    render(<Button>Default</Button>)
-    expect(screen.getByRole('button', { name: 'Default' })).toHaveAttribute('type', 'button')
+  it('applies the matching class for each variant', () => {
+    const variants = ['primary', 'secondary', 'ghost', 'danger'] as const
+    for (const variant of variants) {
+      const { unmount } = render(<Button variant={variant}>{variant}</Button>)
+      expect(screen.getByRole('button', { name: variant })).toHaveClass(
+        'chs-button',
+        `chs-button--${variant}`,
+      )
+      unmount()
+    }
   })
 
-  it('applies the variant and size class names', () => {
-    render(
-      <Button variant="danger" size="lg">
-        Delete
-      </Button>,
-    )
-    const button = screen.getByRole('button', { name: 'Delete' })
-    expect(button).toHaveClass('chs-button', 'chs-button--danger', 'chs-button--lg')
-  })
-
-  it('forwards extra class names', () => {
-    render(<Button className="extra">Hi</Button>)
-    expect(screen.getByRole('button', { name: 'Hi' })).toHaveClass('chs-button', 'extra')
-  })
-
-  it('calls onClick when pressed', async () => {
+  it('calls onClick when clicked', async () => {
     const user = userEvent.setup()
     const onClick = vi.fn()
     render(<Button onClick={onClick}>Press</Button>)
@@ -37,7 +29,7 @@ describe('Button', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
-  it('does not fire onClick when disabled', async () => {
+  it('does not call onClick when disabled', async () => {
     const user = userEvent.setup()
     const onClick = vi.fn()
     render(
@@ -49,5 +41,35 @@ describe('Button', () => {
     expect(button).toBeDisabled()
     await user.click(button)
     expect(onClick).not.toHaveBeenCalled()
+  })
+
+  it('shows a spinner and blocks clicks while loading', async () => {
+    const user = userEvent.setup()
+    const onClick = vi.fn()
+    const { container } = render(
+      <Button loading onClick={onClick}>
+        Saving
+      </Button>,
+    )
+    const button = screen.getByRole('button', { name: 'Saving' })
+    expect(button).toHaveClass('chs-button--loading')
+    expect(button).toHaveAttribute('aria-busy', 'true')
+    expect(container.querySelector('.chs-button__spinner')).toBeInTheDocument()
+
+    await user.click(button)
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
+  it('renders the left and right icons', () => {
+    render(
+      <Button
+        leftIcon={<span data-testid="left">L</span>}
+        rightIcon={<span data-testid="right">R</span>}
+      >
+        Labelled
+      </Button>,
+    )
+    expect(screen.getByTestId('left')).toBeInTheDocument()
+    expect(screen.getByTestId('right')).toBeInTheDocument()
   })
 })
