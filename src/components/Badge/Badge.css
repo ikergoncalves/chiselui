@@ -1,0 +1,74 @@
+/* The global token file only defines `primary`, `danger` and the neutral scale.
+   Badge needs success / warning / info too, so I expose a local pair of custom
+   properties (`--chs-badge-bg` / `--chs-badge-fg`) per variant. Values reuse a
+   token where one exists and otherwise stay within the same Tailwind-derived
+   palette the tokens come from — kept local rather than polluting :root. */
+.chs-badge {
+  --chs-badge-bg: var(--color-neutral-100);
+  --chs-badge-fg: var(--color-neutral-700);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+
+  background-color: var(--chs-badge-bg);
+  color: var(--chs-badge-fg);
+  border-radius: var(--radius-sm);
+
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* The status dot inherits the variant's foreground via currentColor, so each
+   variant only needs to set its color pair once. */
+.chs-badge__dot {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex: none;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Sizes                                                                     */
+/* ------------------------------------------------------------------------- */
+.chs-badge--sm {
+  font-size: var(--font-size-sm);
+  /* calc keeps the tight 2px vertical padding token-derived (space-1 is 4px). */
+  padding: calc(var(--space-1) / 2) var(--space-2);
+}
+
+.chs-badge--md {
+  font-size: var(--font-size-md);
+  padding: var(--space-1) var(--space-3);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Variants                                                                  */
+/* ------------------------------------------------------------------------- */
+.chs-badge--default {
+  --chs-badge-bg: var(--color-neutral-100);
+  --chs-badge-fg: var(--color-neutral-700);
+}
+
+.chs-badge--success {
+  --chs-badge-bg: #dcfce7;
+  --chs-badge-fg: #15803d;
+}
+
+.chs-badge--warning {
+  --chs-badge-bg: #fef3c7;
+  --chs-badge-fg: #b45309;
+}
+
+.chs-badge--danger {
+  --chs-badge-bg: #fee2e2;
+  --chs-badge-fg: var(--color-danger);
+}
+
+.chs-badge--info {
+  --chs-badge-bg: #e0e7ff;
+  --chs-badge-fg: var(--color-primary);
+}

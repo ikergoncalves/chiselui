@@ -6,3 +6,4 @@ import './tokens/index.css'
 import './styles/base.css'
 
 export * from './components/Button'
+export * from './components/Badge'
