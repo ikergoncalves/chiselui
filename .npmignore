@@ -7,7 +7,7 @@ node_modules
 storybook-static
 coverage
 
-vite.config.ts
+*.config.ts
 tsconfig.json
 .eslintrc.cjs
 
