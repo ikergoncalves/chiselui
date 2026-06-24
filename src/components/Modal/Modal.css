@@ -1,0 +1,162 @@
+.chs-modal-overlay {
+  /* Local stacking knob, kept off :root so a consumer can raise just the modal
+     layer without touching global tokens. */
+  --chs-modal-z: 8000;
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--chs-modal-z);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+
+  /* neutral-900 at 50% — written as rgba because the token is a hex solid. */
+  background-color: rgba(17, 24, 39, 0.5);
+
+  animation: chs-modal-overlay-in 200ms ease;
+}
+
+/* A fullscreen panel owns the whole viewport, so drop the backdrop padding. */
+.chs-modal-overlay:has(.chs-modal--fullscreen) {
+  padding: 0;
+}
+
+.chs-modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - var(--space-8));
+
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  /* No shadow token exists yet, so this is the one hand-tuned elevation. */
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  font-family: var(--font-sans);
+  overflow: hidden;
+
+  animation: chs-modal-slide-up 250ms ease;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Sizes                                                                     */
+/* ------------------------------------------------------------------------- */
+.chs-modal--sm {
+  max-width: 400px;
+}
+
+.chs-modal--md {
+  max-width: 560px;
+}
+
+.chs-modal--lg {
+  max-width: 800px;
+}
+
+.chs-modal--fullscreen {
+  max-width: none;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  border-radius: 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Header                                                                    */
+/* ------------------------------------------------------------------------- */
+.chs-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex: none;
+
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.chs-modal__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.chs-modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+
+  width: var(--space-8);
+  height: var(--space-8);
+  padding: 0;
+
+  color: var(--color-neutral-500);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.chs-modal__close:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+}
+
+.chs-modal__close:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Body                                                                      */
+/* ------------------------------------------------------------------------- */
+.chs-modal__body {
+  flex: 1 1 auto;
+  /* The body is the scroll container so the header stays pinned. */
+  overflow-y: auto;
+  padding: var(--space-5);
+  color: var(--color-neutral-800);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Animations                                                                */
+/* ------------------------------------------------------------------------- */
+@keyframes chs-modal-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes chs-modal-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Honour reduced-motion: appear in place, with no fade or slide. */
+@media (prefers-reduced-motion: reduce) {
+  .chs-modal-overlay,
+  .chs-modal {
+    animation: none;
+  }
+}
