@@ -89,6 +89,10 @@ of overriding tokens on `:root` (or any scope):
 | `Switch`          | ✅ Stable  | Animated on/off toggle.                                  |
 | `Textarea`        | ✅ Stable  | Multi-line field with auto-resize and character counter. |
 | `DateRangePicker` | ✅ Stable  | Range date picker with calendar and keyboard navigation. |
+| `Tabs`        | ✅ Stable  | Tabbed interface with fade animation and line/pill variants. |
+| `Accordion`   | ✅ Stable  | Expandable sections with slide animation.                    |
+| `Breadcrumb`  | ✅ Stable  | Hierarchical navigation trail with collapse support.         |
+| `Pagination`  | ✅ Stable  | Page navigation with windowed page numbers.                  |
 
 ## Documentation
 
