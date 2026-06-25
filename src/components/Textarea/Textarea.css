@@ -1,0 +1,36 @@
+/* Textarea borrows the field layout (.chs-field*) and control surface
+   (.chs-input + .chs-input__control) from Input — see Textarea.tsx. Everything
+   here is just the multi-line specifics. */
+
+/* `.chs-input` centres its single child; a textarea should fill the box and the
+   user's resize grip should sit at the bottom edge, so stretch instead. */
+.chs-textarea {
+  align-items: stretch;
+}
+
+.chs-textarea__control {
+  /* Inherits padding, font and colour from .chs-input__control; add the bits a
+     multi-line control needs. */
+  resize: vertical;
+  line-height: 1.5;
+  min-height: calc(var(--chs-field-font) * 3);
+}
+
+/* When auto-resizing we drive the height from JS (scrollHeight), so disable the
+   manual grip and hide the scrollbar that would otherwise flash mid-keystroke. */
+.chs-textarea--auto-resize .chs-textarea__control {
+  resize: none;
+  overflow: hidden;
+}
+
+/* Live character counter, pinned to the trailing edge under the control. */
+.chs-textarea__count {
+  align-self: flex-end;
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  font-variant-numeric: tabular-nums;
+}
+
+.chs-textarea__count--limit {
+  color: var(--color-danger);
+}
