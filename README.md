@@ -93,6 +93,10 @@ of overriding tokens on `:root` (or any scope):
 | `Accordion`   | ✅ Stable  | Expandable sections with slide animation.                    |
 | `Breadcrumb`  | ✅ Stable  | Hierarchical navigation trail with collapse support.         |
 | `Pagination`  | ✅ Stable  | Page navigation with windowed page numbers.                  |
+| `Spinner`   | ✅ Stable  | Indeterminate loading indicator with size and color variants. |
+| `Progress`  | ✅ Stable  | Determinate progress bar and circular ring.                   |
+| `Drawer`    | ✅ Stable  | Sliding panel with left, right, top and bottom placements.    |
+| `Popover`   | ✅ Stable  | Click-triggered floating panel with focus trap support.       |
 
 ## Documentation
 
