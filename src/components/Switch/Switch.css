@@ -1,0 +1,114 @@
+/* Switch is a self-contained control (no field shell): a visually-hidden native
+   checkbox with role="switch" drives the semantics, and a track + thumb render
+   the toggle. The thumb slides with a CSS transform — no JS animation. */
+
+.chs-switch {
+  /* Track / thumb metrics; sm overrides them below. The gap is the inset of the
+     thumb from the track edge, used to compute the travel distance. */
+  --chs-switch-w: 40px;
+  --chs-switch-h: 24px;
+  --chs-switch-thumb: 18px;
+  --chs-switch-gap: 3px;
+  --chs-switch-font: var(--font-size-md);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+.chs-switch--sm {
+  --chs-switch-w: 32px;
+  --chs-switch-h: 18px;
+  --chs-switch-thumb: 12px;
+  --chs-switch-gap: 3px;
+  --chs-switch-font: var(--font-size-sm);
+}
+
+/* Flip the visible order so the label sits on the left; the input is out of flow
+   (absolute) so only the track and label actually reorder. */
+.chs-switch--label-left {
+  flex-direction: row-reverse;
+}
+
+/* Standard visually-hidden recipe: off-screen but focusable and in the a11y tree. */
+.chs-switch__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.chs-switch__track {
+  position: relative;
+  flex: none;
+  width: var(--chs-switch-w);
+  height: var(--chs-switch-h);
+
+  background-color: var(--color-neutral-300);
+  border-radius: 999px;
+
+  transition: background-color var(--transition-base);
+}
+
+.chs-switch__thumb {
+  position: absolute;
+  top: var(--chs-switch-gap);
+  left: var(--chs-switch-gap);
+  width: var(--chs-switch-thumb);
+  height: var(--chs-switch-thumb);
+
+  background-color: var(--color-surface);
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+
+  transition: transform var(--transition-base);
+}
+
+/* On: tint the track and slide the thumb across by the leftover track width. */
+.chs-switch__input:checked + .chs-switch__track {
+  background-color: var(--color-primary);
+}
+
+.chs-switch__input:checked + .chs-switch__track .chs-switch__thumb {
+  transform: translateX(
+    calc(var(--chs-switch-w) - var(--chs-switch-thumb) - 2 * var(--chs-switch-gap))
+  );
+}
+
+/* Focus ring on the track, consistent with the other form controls. */
+.chs-switch:focus-within .chs-switch__track {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.chs-switch__label {
+  font-size: var(--chs-switch-font);
+  color: var(--color-neutral-700);
+  user-select: none;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Disabled state                                                            */
+/* ------------------------------------------------------------------------- */
+.chs-switch:has(.chs-switch__input:disabled) {
+  cursor: not-allowed;
+}
+
+.chs-switch__input:disabled + .chs-switch__track {
+  background-color: var(--color-neutral-200);
+}
+
+.chs-switch__input:disabled:checked + .chs-switch__track {
+  background-color: var(--color-neutral-300);
+}
+
+.chs-switch__input:disabled ~ .chs-switch__label {
+  color: var(--color-neutral-400);
+}
