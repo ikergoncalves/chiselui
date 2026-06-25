@@ -13,3 +13,7 @@ export * from './components/Radio';
 export * from './components/Switch';
 export * from './components/Textarea';
 export * from './components/DateRangePicker';
+export * from './components/Tabs';
+export * from './components/Accordion';
+export * from './components/Breadcrumb';
+export * from './components/Pagination';
