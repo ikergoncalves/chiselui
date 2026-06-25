@@ -9,7 +9,9 @@
 
   padding: var(--space-1) var(--space-2);
   background-color: var(--color-neutral-900);
-  color: #ffffff;
+  /* Surface, not a bare #fff: the tooltip background is neutral-900, which flips
+     to a light tone in dark mode, so the text must flip with it to stay legible. */
+  color: var(--color-surface);
   border-radius: var(--radius-sm);
 
   font-family: var(--font-sans);

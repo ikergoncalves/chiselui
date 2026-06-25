@@ -107,6 +107,27 @@
 
     --color-surface: #252535;
     --color-border: #3a3a52;
+
+    /* Variant semantic colours — Badge / Toast / Progress.
+       The components reference these via var(--token, <light-fallback>), so a
+       light theme keeps its original hardcoded value (token undefined) while
+       dark overrides it here with a tone that stays legible on dark surfaces. */
+    --badge-success-bg: #14532d;
+    --badge-success-fg: #86efac;
+    --badge-warning-bg: #78350f;
+    --badge-warning-fg: #fcd34d;
+    --badge-danger-bg: #7f1d1d;
+    --badge-danger-fg: #fca5a5;
+    --badge-info-bg: #1e1b4b;
+    --badge-info-fg: #a5b4fc;
+
+    --toast-success-accent: #4ade80;
+    --toast-warning-accent: #fbbf24;
+    --toast-error-accent: #f87171;
+    --toast-info-accent: #818cf8;
+
+    --progress-success: #4ade80;
+    --progress-warning: #fbbf24;
   }
 }
 
@@ -129,6 +150,24 @@
 
   --color-surface: #252535;
   --color-border: #3a3a52;
+
+  /* Variant semantic colours — see the note in the prefers-color-scheme block. */
+  --badge-success-bg: #14532d;
+  --badge-success-fg: #86efac;
+  --badge-warning-bg: #78350f;
+  --badge-warning-fg: #fcd34d;
+  --badge-danger-bg: #7f1d1d;
+  --badge-danger-fg: #fca5a5;
+  --badge-info-bg: #1e1b4b;
+  --badge-info-fg: #a5b4fc;
+
+  --toast-success-accent: #4ade80;
+  --toast-warning-accent: #fbbf24;
+  --toast-error-accent: #f87171;
+  --toast-info-accent: #818cf8;
+
+  --progress-success: #4ade80;
+  --progress-warning: #fbbf24;
 }
 
 /* Manual light — forces the original light palette even when the OS is dark. */

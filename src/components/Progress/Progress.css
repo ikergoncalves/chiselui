@@ -6,11 +6,11 @@
 }
 
 .chs-progress--success {
-  --chs-progress-color: #15803d;
+  --chs-progress-color: var(--progress-success, #15803d);
 }
 
 .chs-progress--warning {
-  --chs-progress-color: #b45309;
+  --chs-progress-color: var(--progress-warning, #b45309);
 }
 
 .chs-progress--danger {

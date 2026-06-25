@@ -54,21 +54,21 @@
 }
 
 .chs-badge--success {
-  --chs-badge-bg: #dcfce7;
-  --chs-badge-fg: #15803d;
+  --chs-badge-bg: var(--badge-success-bg, #dcfce7);
+  --chs-badge-fg: var(--badge-success-fg, #15803d);
 }
 
 .chs-badge--warning {
-  --chs-badge-bg: #fef3c7;
-  --chs-badge-fg: #b45309;
+  --chs-badge-bg: var(--badge-warning-bg, #fef3c7);
+  --chs-badge-fg: var(--badge-warning-fg, #b45309);
 }
 
 .chs-badge--danger {
-  --chs-badge-bg: #fee2e2;
-  --chs-badge-fg: var(--color-danger);
+  --chs-badge-bg: var(--badge-danger-bg, #fee2e2);
+  --chs-badge-fg: var(--badge-danger-fg, var(--color-danger));
 }
 
 .chs-badge--info {
-  --chs-badge-bg: #e0e7ff;
-  --chs-badge-fg: var(--color-primary);
+  --chs-badge-bg: var(--badge-info-bg, #e0e7ff);
+  --chs-badge-fg: var(--badge-info-fg, var(--color-primary));
 }

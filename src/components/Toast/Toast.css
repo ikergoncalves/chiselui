@@ -113,17 +113,17 @@
 /* Variant accents                                                           */
 /* ------------------------------------------------------------------------- */
 .chs-toast--success {
-  --chs-toast-accent: #15803d;
+  --chs-toast-accent: var(--toast-success-accent, #15803d);
 }
 
 .chs-toast--error {
-  --chs-toast-accent: var(--color-danger);
+  --chs-toast-accent: var(--toast-error-accent, var(--color-danger));
 }
 
 .chs-toast--warning {
-  --chs-toast-accent: #b45309;
+  --chs-toast-accent: var(--toast-warning-accent, #b45309);
 }
 
 .chs-toast--info {
-  --chs-toast-accent: var(--color-primary);
+  --chs-toast-accent: var(--toast-info-accent, var(--color-primary));
 }
