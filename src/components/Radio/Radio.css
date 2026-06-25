@@ -1,0 +1,127 @@
+/* Radio mirrors Checkbox: a visually-hidden native input drives the semantics
+   and keyboard, while a custom circle renders the ring and the selected dot.
+   RadioGroup reuses the field shell (.chs-field*) from Input for label/error/
+   hint — see RadioGroup.tsx. */
+
+.chs-radio-group {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.chs-radio-group--vertical {
+  flex-direction: column;
+}
+
+.chs-radio-group--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.chs-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+/* Standard visually-hidden recipe: off-screen but still focusable and present in
+   the accessibility tree, so the native radio keeps driving keyboard and AT. */
+.chs-radio__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.chs-radio__circle {
+  position: relative;
+  flex: none;
+  width: 20px;
+  height: 20px;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 50%;
+
+  transition: border-color var(--transition-fast);
+}
+
+/* The selected dot: centred via inset:0 + margin:auto, scaled in on check. */
+.chs-radio__circle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 50%;
+  height: 50%;
+
+  background-color: var(--color-primary);
+  border-radius: 50%;
+
+  opacity: 0;
+  transform: scale(0.3);
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.chs-radio__input:checked + .chs-radio__circle {
+  border-color: var(--color-primary);
+}
+
+.chs-radio__input:checked + .chs-radio__circle::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Focus ring on the custom circle, consistent with Checkbox's :focus-within. */
+.chs-radio:focus-within .chs-radio__circle {
+  border-color: var(--color-primary);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.chs-radio__label {
+  font-size: var(--chs-field-font);
+  color: var(--color-neutral-700);
+  user-select: none;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Error state                                                               */
+/* ------------------------------------------------------------------------- */
+.chs-field--error .chs-radio__circle {
+  border-color: var(--color-danger);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Disabled state — driven by the native :disabled so per-option and          */
+/* group-wide disabling share one set of rules.                               */
+/* ------------------------------------------------------------------------- */
+.chs-radio:has(.chs-radio__input:disabled) {
+  cursor: not-allowed;
+}
+
+.chs-radio__input:disabled + .chs-radio__circle {
+  background-color: var(--color-neutral-100);
+  border-color: var(--color-neutral-200);
+}
+
+.chs-radio__input:disabled:checked + .chs-radio__circle {
+  border-color: var(--color-neutral-300);
+}
+
+.chs-radio__input:disabled:checked + .chs-radio__circle::after {
+  background-color: var(--color-neutral-300);
+}
+
+.chs-radio__input:disabled ~ .chs-radio__label {
+  color: var(--color-neutral-400);
+}
