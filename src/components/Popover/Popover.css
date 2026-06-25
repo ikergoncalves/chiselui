@@ -1,0 +1,56 @@
+.chs-popover-positioner {
+  /* Local stacking knob, kept off :root so a consumer can raise just the popover
+     layer without touching global tokens. */
+  --chs-popover-z: 9000;
+
+  z-index: var(--chs-popover-z);
+}
+
+.chs-popover {
+  width: max-content;
+  max-width: 320px;
+
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  color: var(--color-neutral-800);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  /* No shadow token exists yet, so this is a hand-tuned elevation matched to the
+     Drawer's panel so floating surfaces read at the same depth. */
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+
+  /* 150ms matches --transition-fast; written out because `animation` needs a bare
+     duration, not the token's "duration + easing" pair. */
+  animation: chs-popover-in 150ms ease-out;
+}
+
+/* When trapFocus holds focus on the panel itself (nothing focusable inside), make
+   that state visible rather than a silent focus sink. */
+.chs-popover:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@keyframes chs-popover-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Honour reduced-motion: appear instantly rather than fading and scaling. */
+@media (prefers-reduced-motion: reduce) {
+  .chs-popover {
+    animation: none;
+  }
+}
