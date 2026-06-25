@@ -1,6 +1,6 @@
 {
   "name": "chiselui",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Precisely chiseled React components",
   "type": "module",
   "license": "MIT",
