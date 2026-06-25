@@ -20,8 +20,9 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  *
  * Styled entirely through design tokens (CSS custom properties), so it adapts
  * automatically to any theme that overrides the `--color-*` / `--space-*` vars.
+ *
+ * Forwards its ref to the underlying `<button>` so it can act as a trigger for
+ * ref-based primitives like {@link Tooltip} (which needs the DOM node to anchor
+ * its bubble).
  */
-export declare function Button({ variant, size, type, loading, disabled, leftIcon, rightIcon, className, children, onClick, ...rest }: ButtonProps): import("react").JSX.Element;
-export declare namespace Button {
-    var displayName: string;
-}
+export declare const Button: import('../../../node_modules/react').ForwardRefExoticComponent<ButtonProps & import('../../../node_modules/react').RefAttributes<HTMLButtonElement>>;
