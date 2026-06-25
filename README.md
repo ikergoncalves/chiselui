@@ -83,6 +83,12 @@ of overriding tokens on `:root` (or any scope):
 | `Modal`     | ✅ Stable  | Dialog with focus trap and scroll locking.               |
 | `Combobox`  | ✅ Stable  | Autocomplete select with full keyboard navigation.       |
 | `DataTable` | ✅ Stable  | Tabular data with column sorting and pagination.         |
+| `Checkbox`        | ✅ Stable  | Tri-state checkbox with indeterminate support.           |
+| `Radio`           | ✅ Stable  | Radio button for use within a RadioGroup.                |
+| `RadioGroup`      | ✅ Stable  | Grouped radios with keyboard navigation.                 |
+| `Switch`          | ✅ Stable  | Animated on/off toggle.                                  |
+| `Textarea`        | ✅ Stable  | Multi-line field with auto-resize and character counter. |
+| `DateRangePicker` | ✅ Stable  | Range date picker with calendar and keyboard navigation. |
 
 ## Documentation
 
