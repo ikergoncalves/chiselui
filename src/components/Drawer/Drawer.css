@@ -1,0 +1,241 @@
+.chs-drawer-overlay {
+  /* Local stacking knob, kept off :root so a consumer can raise just the drawer
+     layer without touching global tokens. */
+  --chs-drawer-z: 8000;
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--chs-drawer-z);
+
+  display: flex;
+
+  /* neutral-900 at 50% — written as rgba because the token is a hex solid. */
+  background-color: rgba(17, 24, 39, 0.5);
+
+  animation: chs-drawer-overlay-in 200ms ease;
+}
+
+/* The overlay only has to park the panel against the correct edge; the panel
+   itself owns its size on the sliding axis and stretches across the other one. */
+.chs-drawer-overlay--left {
+  justify-content: flex-start;
+}
+
+.chs-drawer-overlay--right {
+  justify-content: flex-end;
+}
+
+.chs-drawer-overlay--top {
+  align-items: flex-start;
+}
+
+.chs-drawer-overlay--bottom {
+  align-items: flex-end;
+}
+
+.chs-drawer {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-surface);
+  /* No shadow token exists yet, so this is the one hand-tuned elevation. */
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Sizes                                                                     */
+/* `size` means width for left/right and height for top/bottom, so each preset */
+/* carries both values and the placement rules below pick the relevant one.    */
+/* ------------------------------------------------------------------------- */
+.chs-drawer--sm {
+  --chs-drawer-extent-h: 320px;
+  --chs-drawer-extent-v: 200px;
+}
+
+.chs-drawer--md {
+  --chs-drawer-extent-h: 480px;
+  --chs-drawer-extent-v: 320px;
+}
+
+.chs-drawer--lg {
+  --chs-drawer-extent-h: 640px;
+  --chs-drawer-extent-v: 480px;
+}
+
+.chs-drawer--full {
+  --chs-drawer-extent-h: 100%;
+  --chs-drawer-extent-v: 100%;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Placement — anchoring, sizing and slide-in direction                      */
+/* ------------------------------------------------------------------------- */
+.chs-drawer--left,
+.chs-drawer--right {
+  height: 100%;
+  width: var(--chs-drawer-extent-h);
+  max-width: 100%;
+}
+
+.chs-drawer--top,
+.chs-drawer--bottom {
+  width: 100%;
+  height: var(--chs-drawer-extent-v);
+  max-height: 100%;
+}
+
+.chs-drawer--left {
+  animation: chs-drawer-slide-left var(--transition-base);
+}
+
+.chs-drawer--right {
+  animation: chs-drawer-slide-right var(--transition-base);
+}
+
+.chs-drawer--top {
+  animation: chs-drawer-slide-top var(--transition-base);
+}
+
+.chs-drawer--bottom {
+  animation: chs-drawer-slide-bottom var(--transition-base);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Header                                                                    */
+/* ------------------------------------------------------------------------- */
+.chs-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex: none;
+
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.chs-drawer__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.chs-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+
+  width: var(--space-8);
+  height: var(--space-8);
+  padding: 0;
+
+  color: var(--color-neutral-500);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.chs-drawer__close:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+}
+
+.chs-drawer__close:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Body                                                                      */
+/* ------------------------------------------------------------------------- */
+.chs-drawer__body {
+  flex: 1 1 auto;
+  /* The body is the scroll container so header and footer stay pinned. */
+  overflow-y: auto;
+  padding: var(--space-5);
+  color: var(--color-neutral-800);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Footer                                                                    */
+/* ------------------------------------------------------------------------- */
+.chs-drawer__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  flex: none;
+
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Animations                                                                */
+/* ------------------------------------------------------------------------- */
+@keyframes chs-drawer-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes chs-drawer-slide-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes chs-drawer-slide-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes chs-drawer-slide-top {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes chs-drawer-slide-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Honour reduced-motion: appear in place, with no fade or slide. */
+@media (prefers-reduced-motion: reduce) {
+  .chs-drawer-overlay,
+  .chs-drawer {
+    animation: none;
+  }
+}
