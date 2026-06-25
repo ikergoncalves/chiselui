@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { Accordion, type AccordionItem } from './Accordion'
+import { Accordion, type AccordionItem, type AccordionProps } from './Accordion'
 
 const items: AccordionItem[] = [
   {
@@ -89,36 +89,41 @@ export const WithDisabled: Story = {
   },
 }
 
-export const Controlled: Story = {
-  render: (args) => {
-    // External buttons own the open set; the accordion just reflects `openIds`.
-    const [openIds, setOpenIds] = useState<string[]>(['returns'])
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div style={{ display: 'flex', gap: 8 }}>
-          {items.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() =>
-                setOpenIds((open) =>
-                  open.includes(item.id)
-                    ? open.filter((id) => id !== item.id)
-                    : [...open, item.id],
-                )
-              }
-            >
-              Toggle {item.id}
-            </button>
-          ))}
-        </div>
-        <Accordion
-          {...args}
-          allowMultiple
-          openIds={openIds}
-          onChange={setOpenIds}
-        />
+// External buttons own the open set; the accordion just reflects `openIds`. Extracted
+// into a named component so the hook lives in a real React component — an inline
+// `render` function isn't recognized as one by the Hooks lint.
+function ControlledAccordion(args: Partial<AccordionProps>) {
+  const [openIds, setOpenIds] = useState<string[]>(['returns'])
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'flex', gap: 8 }}>
+        {items.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() =>
+              setOpenIds((open) =>
+                open.includes(item.id)
+                  ? open.filter((id) => id !== item.id)
+                  : [...open, item.id],
+              )
+            }
+          >
+            Toggle {item.id}
+          </button>
+        ))}
       </div>
-    )
-  },
+      <Accordion
+        items={items}
+        {...args}
+        allowMultiple
+        openIds={openIds}
+        onChange={setOpenIds}
+      />
+    </div>
+  )
+}
+
+export const Controlled: Story = {
+  render: (args) => <ControlledAccordion {...args} />,
 }

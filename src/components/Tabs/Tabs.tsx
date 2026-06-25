@@ -155,7 +155,6 @@ export function Tabs({
 
   return (
     <div className={rootClass}>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role */}
       <div role="tablist" className="chs-tabs__list" onKeyDown={handleKeyDown}>
         {items.map((item, index) => {
           const selected = item.id === currentActiveId

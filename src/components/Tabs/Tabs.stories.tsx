@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { Tabs, type TabItem } from './Tabs'
+import { Tabs, type TabItem, type TabsProps } from './Tabs'
 
 const items: TabItem[] = [
   {
@@ -159,27 +159,30 @@ export const Disabled: Story = {
   },
 }
 
-export const Controlled: Story = {
-  render: (args) => {
-    // `useState` drives selection; the external buttons prove `activeId` wins over
-    // any internal state.
-    const [active, setActive] = useState('specs')
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div style={{ display: 'flex', gap: 8 }}>
-          {items.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => setActive(item.id)}
-              style={{ fontWeight: active === item.id ? 700 : 400 }}
-            >
-              Go to {item.id}
-            </button>
-          ))}
-        </div>
-        <Tabs {...args} activeId={active} onChange={setActive} />
+// `useState` drives selection; the external buttons prove `activeId` wins over any
+// internal state. Extracted into a named component so the hook lives in a real React
+// component — an inline `render` function isn't recognized as one by the Hooks lint.
+function ControlledTabs(args: Partial<TabsProps>) {
+  const [active, setActive] = useState('specs')
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'flex', gap: 8 }}>
+        {items.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setActive(item.id)}
+            style={{ fontWeight: active === item.id ? 700 : 400 }}
+          >
+            Go to {item.id}
+          </button>
+        ))}
       </div>
-    )
-  },
+      <Tabs items={items} {...args} activeId={active} onChange={setActive} />
+    </div>
+  )
+}
+
+export const Controlled: Story = {
+  render: (args) => <ControlledTabs {...args} />,
 }
