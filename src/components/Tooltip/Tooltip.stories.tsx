@@ -19,11 +19,22 @@ const meta = {
       control: 'inline-radio',
       options: ['top', 'right', 'bottom', 'left'],
     },
+    // `content` is typed ReactNode, which autodocs won't infer an editable
+    // control for — force a text control so the bubble text is editable.
+    content: { control: 'text' },
+    // The trigger is a React element; there's no meaningful args control for it.
+    children: { control: false },
   },
 } satisfies Meta<typeof Tooltip>
 
 export default meta
 type Story = StoryObj<typeof meta>
+
+// Plain args-only story so the `content`, `placement` and `delay` controls drive
+// the component directly (hover the trigger to see edits). The showcase stories
+// below intentionally override `content` per-instance, so they can't serve this
+// role.
+export const Default: Story = {}
 
 export const AllPlacements: Story = {
   render: (args) => (
