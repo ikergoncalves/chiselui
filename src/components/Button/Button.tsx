@@ -1,4 +1,9 @@
-import { type ButtonHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
+import {
+  type ButtonHTMLAttributes,
+  type MouseEvent,
+  type ReactNode,
+  forwardRef,
+} from 'react'
 import './Button.css'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger'
@@ -51,20 +56,27 @@ function Spinner() {
  *
  * Styled entirely through design tokens (CSS custom properties), so it adapts
  * automatically to any theme that overrides the `--color-*` / `--space-*` vars.
+ *
+ * Forwards its ref to the underlying `<button>` so it can act as a trigger for
+ * ref-based primitives like {@link Tooltip} (which needs the DOM node to anchor
+ * its bubble).
  */
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  type = 'button',
-  loading = false,
-  disabled = false,
-  leftIcon,
-  rightIcon,
-  className,
-  children,
-  onClick,
-  ...rest
-}: ButtonProps) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    variant = 'primary',
+    size = 'md',
+    type = 'button',
+    loading = false,
+    disabled = false,
+    leftIcon,
+    rightIcon,
+    className,
+    children,
+    onClick,
+    ...rest
+  },
+  ref,
+) {
   const classNames = [
     'chs-button',
     `chs-button--${variant}`,
@@ -89,6 +101,7 @@ export function Button({
 
   return (
     <button
+      ref={ref}
       type={type}
       className={classNames}
       disabled={disabled || loading}
@@ -105,6 +118,6 @@ export function Button({
       {!loading && rightIcon && <span className="chs-button__icon">{rightIcon}</span>}
     </button>
   )
-}
+})
 
 Button.displayName = 'Button'
