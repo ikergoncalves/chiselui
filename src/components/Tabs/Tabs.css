@@ -1,0 +1,179 @@
+/* The global tokens carry color/spacing/radius but not a per-size tab metric, so
+   (mirroring how Input exposes `--chs-field-*`) the size modifiers expose
+   `--chs-tab-*` custom properties that the tab button reads. */
+.chs-tabs {
+  --chs-tab-pad-y: var(--space-2);
+  --chs-tab-pad-x: var(--space-4);
+  --chs-tab-font: var(--font-size-md);
+
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+}
+
+.chs-tabs--sm {
+  --chs-tab-pad-y: var(--space-1);
+  --chs-tab-pad-x: var(--space-3);
+  --chs-tab-font: var(--font-size-sm);
+}
+
+.chs-tabs--md {
+  --chs-tab-pad-y: var(--space-2);
+  --chs-tab-pad-x: var(--space-4);
+  --chs-tab-font: var(--font-size-md);
+}
+
+.chs-tabs--lg {
+  --chs-tab-pad-y: var(--space-3);
+  --chs-tab-pad-x: var(--space-5);
+  --chs-tab-font: var(--font-size-lg);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Tab row                                                                   */
+/* ------------------------------------------------------------------------- */
+.chs-tabs__list {
+  /* Positioning context for the sliding underline, which is an absolutely
+     positioned child measured against this row. */
+  position: relative;
+  display: flex;
+  gap: var(--space-1);
+}
+
+.chs-tabs--line .chs-tabs__list {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.chs-tabs--pill .chs-tabs__list {
+  gap: var(--space-2);
+}
+
+/* fullWidth: each tab claims an equal share of the row. */
+.chs-tabs--full .chs-tabs__tab {
+  flex: 1 1 0;
+}
+
+.chs-tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  padding: var(--chs-tab-pad-y) var(--chs-tab-pad-x);
+  font-family: inherit;
+  font-size: var(--chs-tab-font);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+  white-space: nowrap;
+
+  color: var(--color-neutral-600);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.chs-tabs__tab:hover:not(:disabled) {
+  color: var(--color-neutral-900);
+}
+
+.chs-tabs__tab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.chs-tabs__tab:disabled {
+  color: var(--color-neutral-300);
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Variant: line                                                             */
+/* ------------------------------------------------------------------------- */
+.chs-tabs--line .chs-tabs__tab[aria-selected='true'] {
+  color: var(--color-primary);
+}
+
+.chs-tabs__indicator {
+  position: absolute;
+  /* Sit on top of the row's border so the underline reads as a single line. */
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-sm);
+
+  transition:
+    left var(--transition-base),
+    width var(--transition-base);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Variant: pill                                                             */
+/* ------------------------------------------------------------------------- */
+.chs-tabs--pill .chs-tabs__tab {
+  border-radius: var(--radius-md);
+}
+
+.chs-tabs--pill .chs-tabs__tab:hover:not(:disabled) {
+  background-color: var(--color-neutral-100);
+}
+
+.chs-tabs--pill .chs-tabs__tab[aria-selected='true'] {
+  /* White on primary is the one local semantic colour, kept inline like the
+     other components rather than promoted to a token. */
+  color: #ffffff;
+  background-color: var(--color-primary);
+}
+
+.chs-tabs--pill .chs-tabs__tab[aria-selected='true']:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Panels                                                                    */
+/* ------------------------------------------------------------------------- */
+.chs-tabs__panels {
+  margin-top: var(--space-4);
+}
+
+.chs-tabs__panel {
+  color: var(--color-neutral-800);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+
+  /* Re-runs each time a panel flips from hidden (display:none) back to shown,
+     which is exactly the fade-in we want on every tab switch. */
+  animation: chs-tabs-fade-in 200ms ease;
+}
+
+.chs-tabs__panel:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes chs-tabs-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Honour reduced-motion: no fade, no sliding underline. */
+@media (prefers-reduced-motion: reduce) {
+  .chs-tabs__panel {
+    animation: none;
+  }
+  .chs-tabs__indicator {
+    transition: none;
+  }
+}
