@@ -8,3 +8,8 @@ export * from './components/Toast';
 export * from './components/Modal';
 export * from './components/Combobox';
 export * from './components/DataTable';
+export * from './components/Checkbox';
+export * from './components/Radio';
+export * from './components/Switch';
+export * from './components/Textarea';
+export * from './components/DateRangePicker';

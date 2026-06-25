@@ -1,0 +1,1 @@
+import{r as u}from"./index-Bc2G9s8g.js";function i(e,n,r=!0){u.useEffect(()=>{if(!r)return;const t=o=>{const s=e.current;!s||s.contains(o.target)||n(o)};return document.addEventListener("mousedown",t),document.addEventListener("touchstart",t),()=>{document.removeEventListener("mousedown",t),document.removeEventListener("touchstart",t)}},[e,n,r])}export{i as u};
