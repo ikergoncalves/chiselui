@@ -48,11 +48,23 @@ function readStoredTheme(storageKey: string): ThemeValue | null {
  */
 function applyTheme(theme: ThemeValue): void {
   const root = document.documentElement
-  if (theme === 'system') {
-    root.removeAttribute('data-theme')
-  } else {
-    root.setAttribute('data-theme', theme)
+
+  const doApply = () => {
+    if (theme === 'system') {
+      root.removeAttribute('data-theme')
+    } else {
+      root.setAttribute('data-theme', theme)
+    }
   }
+
+  // View Transitions API: anima a troca de tema com um fade suave.
+  // Browsers sem suporte executam a troca diretamente.
+  if (!document.startViewTransition) {
+    doApply()
+    return
+  }
+
+  document.startViewTransition(doApply)
 }
 
 function ThemeIcon({ theme }: { theme: ThemeValue }) {

@@ -79,3 +79,32 @@
     animation: none;
   }
 }
+
+/* View Transitions — anima a troca de tema com fade suave.
+   O pseudo-elemento ::view-transition-old captura o estado anterior;
+   ::view-transition-new é o novo estado. Ambos fazem crossfade. */
+::view-transition-old(root) {
+  animation: chs-theme-fade-out 300ms ease forwards;
+}
+
+::view-transition-new(root) {
+  animation: chs-theme-fade-in 300ms ease forwards;
+}
+
+@keyframes chs-theme-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes chs-theme-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Respeitar prefers-reduced-motion: desativar a transição */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
