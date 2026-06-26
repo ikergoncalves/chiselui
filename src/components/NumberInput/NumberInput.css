@@ -1,0 +1,67 @@
+/* NumberInput reuses Input's field shell (.chs-field*) and control surface
+   (.chs-input) from Input.css — see NumberInput.tsx — and only adds the spinner
+   row plus the increment / decrement buttons that flank the field. */
+
+.chs-numberinput {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+/* The field takes the slack; the buttons stay their intrinsic square size. */
+.chs-numberinput .chs-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.chs-numberinput__btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Square-ish control that stretches to the field's height via align-items. */
+  width: var(--space-10);
+  padding: 0;
+
+  font-family: var(--font-sans);
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  color: var(--color-neutral-700);
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.chs-numberinput__btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* Mirror the focus ring used by .chs-input:focus-within so the row stays cohesive. */
+.chs-numberinput__btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.chs-numberinput__btn:disabled {
+  color: var(--color-neutral-300);
+  background-color: var(--color-neutral-50);
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Disabled field — dim the buttons alongside Input's disabled surface.      */
+/* ------------------------------------------------------------------------- */
+.chs-field--disabled .chs-numberinput__btn {
+  color: var(--color-neutral-300);
+  background-color: var(--color-neutral-50);
+  cursor: not-allowed;
+}
