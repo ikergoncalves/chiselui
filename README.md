@@ -8,6 +8,7 @@
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/chiselui)](https://bundlephobia.com/package/chiselui)
 [![Tree Shaking](https://img.shields.io/bundlephobia/tree-shaking/chiselui)](https://bundlephobia.com/package/chiselui)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Chromatic](https://img.shields.io/badge/visual%20tests-chromatic-fc521f)](https://www.chromatic.com)
 
 ## Why chiselui
 
@@ -162,6 +163,7 @@ Browse the live Storybook with interactive examples and prop tables:
 | `npm run test:watch`      | Vitest in watch mode                        |
 | `npm run lint`            | ESLint over `src`                           |
 | `npm run typecheck`       | `tsc --noEmit`                              |
+| `npm run chromatic`       | Run visual regression tests via Chromatic   |
 
 ## License
 
