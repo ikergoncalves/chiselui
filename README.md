@@ -5,6 +5,9 @@
 [![CI](https://github.com/ikergoncalves/chiselui/actions/workflows/ci.yml/badge.svg)](https://github.com/ikergoncalves/chiselui/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/chiselui)](https://www.npmjs.com/package/chiselui)
 [![license](https://img.shields.io/npm/l/chiselui)](https://github.com/ikergoncalves/chiselui/blob/main/LICENSE)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/chiselui)](https://bundlephobia.com/package/chiselui)
+[![Tree Shaking](https://img.shields.io/bundlephobia/tree-shaking/chiselui)](https://bundlephobia.com/package/chiselui)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
 ## Why chiselui
 
@@ -125,6 +128,21 @@ export function App() {
 | `Drawer`    | ✅ Stable  | Sliding panel with left, right, top and bottom placements.    |
 | `Popover`   | ✅ Stable  | Click-triggered floating panel with focus trap support.       |
 | `ThemeToggle` | ✅ Stable  | Light/dark/system theme toggle with localStorage persistence. |
+
+## Performance
+
+chiselui is designed to be as small as possible:
+
+- **Zero runtime dependencies** (except `@floating-ui/react` for
+  Popover and Tooltip positioning)
+- **Full tree-shaking support** — import only what you use
+- **Pure CSS Variables** — no CSS-in-JS runtime overhead
+- **~44 kB CSS + ~66 kB JS** (minified, before gzip)
+
+```tsx
+// Only Button and Badge are included in your bundle
+import { Button, Badge } from 'chiselui'
+```
 
 ## Documentation
 
