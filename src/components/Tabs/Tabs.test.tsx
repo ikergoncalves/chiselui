@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Tabs, type TabItem } from './Tabs'
+import { checkA11y } from '../../../tests/a11y'
 
 const items: TabItem[] = [
   { id: 'one', label: 'One', content: 'Panel one content' },
@@ -105,5 +106,12 @@ describe('Tabs', () => {
     const panel = screen.getByRole('tabpanel')
     expect(tab.getAttribute('aria-controls')).toBe(panel.id)
     expect(panel).toHaveAttribute('aria-labelledby', tab.id)
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(<Tabs items={items} />)
+      await checkA11y(container)
+    })
   })
 })

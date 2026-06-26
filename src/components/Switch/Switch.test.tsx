@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Switch } from './Switch'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Switch', () => {
   it('renders the label', () => {
@@ -52,5 +53,14 @@ describe('Switch', () => {
 
     rerender(<Switch label="Wi-Fi" checked />)
     expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'true')
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(
+        <Switch label="Enable" checked={false} onChange={() => {}} />,
+      )
+      await checkA11y(container)
+    })
   })
 })

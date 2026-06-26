@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Select } from './Select'
+import { checkA11y } from '../../../tests/a11y'
 
 const options = [
   { value: 'apple', label: 'Apple' },
@@ -43,5 +44,12 @@ describe('Select', () => {
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(screen.getByRole('combobox')).toHaveValue('banana')
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(<Select label="Fruit" options={options} />)
+      await checkA11y(container)
+    })
   })
 })

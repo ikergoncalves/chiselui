@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { RadioGroup } from './RadioGroup'
+import { checkA11y } from '../../../tests/a11y'
 
 const options = [
   { value: 'free', label: 'Free' },
@@ -64,5 +65,14 @@ describe('RadioGroup', () => {
     expect(labelEl).toHaveTextContent('Subscription plan')
     // The group is also reachable by its accessible name.
     expect(screen.getByRole('radiogroup', { name: 'Subscription plan' })).toBe(group)
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(
+        <RadioGroup name="test" label="Plan" options={options} />,
+      )
+      await checkA11y(container)
+    })
   })
 })

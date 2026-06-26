@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { Input } from './Input'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Input', () => {
   it('renders the label', () => {
@@ -46,5 +47,20 @@ describe('Input', () => {
 
     expect(input).not.toHaveAttribute('aria-invalid')
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container, unmount } = render(
+        <Input label="Email" placeholder="you@example.com" />,
+      )
+      await checkA11y(container)
+      unmount()
+
+      const { container: withError } = render(
+        <Input label="Email" error="Required" />,
+      )
+      await checkA11y(withError)
+    })
   })
 })

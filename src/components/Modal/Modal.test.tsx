@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Modal, type ModalProps } from './Modal'
+import { checkA11y } from '../../../tests/a11y'
 
 // A trigger + Modal pair so we can assert real open/close and focus-return flows.
 function Harness(props: Partial<ModalProps>) {
@@ -103,5 +104,18 @@ describe('Modal', () => {
     )
     const dialog = screen.getByRole('dialog')
     expect(dialog).toHaveAttribute('aria-modal', 'true')
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      // The dialog renders through a portal on document.body, so we audit the
+      // whole body rather than the (empty) Testing Library container.
+      render(
+        <Modal isOpen onClose={() => {}} title="Test">
+          content
+        </Modal>,
+      )
+      await checkA11y(document.body)
+    })
   })
 })

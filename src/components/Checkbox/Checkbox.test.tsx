@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Checkbox } from './Checkbox'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Checkbox', () => {
   it('renders the label', () => {
@@ -55,5 +56,20 @@ describe('Checkbox', () => {
   it('has aria-checked="mixed" when indeterminate', () => {
     render(<Checkbox label="Accept" indeterminate />)
     expect(screen.getByRole('checkbox')).toHaveAttribute('aria-checked', 'mixed')
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container, unmount } = render(
+        <Checkbox label="Accept" checked={false} onChange={() => {}} />,
+      )
+      await checkA11y(container)
+      unmount()
+
+      const { container: indeterminate } = render(
+        <Checkbox label="Accept" indeterminate />,
+      )
+      await checkA11y(indeterminate)
+    })
   })
 })

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { Spinner } from './Spinner'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Spinner', () => {
   it('renders with role="status"', () => {
@@ -34,5 +35,12 @@ describe('Spinner', () => {
       expect(screen.getByRole('status')).toHaveClass(`chs-spinner--${color}`)
       unmount()
     }
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(<Spinner />)
+      await checkA11y(container)
+    })
   })
 })

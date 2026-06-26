@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { Badge } from './Badge'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Badge', () => {
   it('renders its label', () => {
@@ -23,5 +24,21 @@ describe('Badge', () => {
 
     rerender(<Badge dot>Dotted</Badge>)
     expect(container.querySelector('.chs-badge__dot')).toBeInTheDocument()
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const variants = ['default', 'success', 'warning', 'danger', 'info'] as const
+      const { container } = render(
+        <>
+          {variants.map((variant) => (
+            <Badge key={variant} variant={variant}>
+              {variant}
+            </Badge>
+          ))}
+        </>,
+      )
+      await checkA11y(container)
+    })
   })
 })

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Textarea } from './Textarea'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Textarea', () => {
   it('renders the label', () => {
@@ -46,5 +47,12 @@ describe('Textarea', () => {
   it('caps input at maxLength via the native attribute', () => {
     render(<Textarea label="Bio" maxLength={100} />)
     expect(screen.getByRole('textbox')).toHaveAttribute('maxlength', '100')
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(<Textarea label="Bio" />)
+      await checkA11y(container)
+    })
   })
 })

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Accordion, type AccordionItem } from './Accordion'
+import { checkA11y } from '../../../tests/a11y'
 
 const items: AccordionItem[] = [
   { id: 'a', title: 'Title A', content: 'Content A' },
@@ -111,5 +112,14 @@ describe('Accordion', () => {
     const region = screen.getByRole('region', { name: 'Title A' })
     expect(header.getAttribute('aria-controls')).toBe(region.id)
     expect(region).toHaveAttribute('aria-labelledby', header.id)
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(
+        <Accordion items={items} defaultOpenIds={['a']} />,
+      )
+      await checkA11y(container)
+    })
   })
 })

@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Pagination } from './Pagination'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Pagination', () => {
   it('renders the previous and next buttons', () => {
@@ -95,6 +96,13 @@ describe('Pagination', () => {
     expect(buttons.length).toBeGreaterThan(0)
     buttons.forEach((button) => {
       expect(button).toBeDisabled()
+    })
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(<Pagination totalItems={100} pageSize={10} />)
+      await checkA11y(container)
     })
   })
 })

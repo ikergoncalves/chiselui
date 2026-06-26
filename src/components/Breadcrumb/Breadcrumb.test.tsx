@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Breadcrumb, type BreadcrumbItem } from './Breadcrumb'
+import { checkA11y } from '../../../tests/a11y'
 
 const items: BreadcrumbItem[] = [
   { label: 'Home', href: '#home' },
@@ -111,5 +112,16 @@ describe('Breadcrumb', () => {
     await user.click(screen.getByRole('button', { name: 'Dashboard' }))
 
     expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container } = render(
+        <Breadcrumb
+          items={[{ label: 'Home', href: '#' }, { label: 'Current' }]}
+        />,
+      )
+      await checkA11y(container)
+    })
   })
 })

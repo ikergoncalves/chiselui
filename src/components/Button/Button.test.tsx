@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Button } from './Button'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Button', () => {
   it('renders its children', () => {
@@ -71,5 +72,20 @@ describe('Button', () => {
     )
     expect(screen.getByTestId('left')).toBeInTheDocument()
     expect(screen.getByTestId('right')).toBeInTheDocument()
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container, unmount } = render(<Button>Click me</Button>)
+      await checkA11y(container)
+      unmount()
+
+      const { container: loading } = render(
+        <Button variant="danger" loading>
+          Loading
+        </Button>,
+      )
+      await checkA11y(loading)
+    })
   })
 })

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { Progress } from './Progress'
+import { checkA11y } from '../../../tests/a11y'
 
 describe('Progress', () => {
   it('renders with role="progressbar"', () => {
@@ -77,5 +78,18 @@ describe('Progress', () => {
 
     rerender(<Progress value={-20} />)
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '0')
+  })
+
+  describe('accessibility', () => {
+    it('has no accessibility violations', async () => {
+      const { container, unmount } = render(<Progress value={60} />)
+      await checkA11y(container)
+      unmount()
+
+      const { container: circular } = render(
+        <Progress value={60} variant="circular" />,
+      )
+      await checkA11y(circular)
+    })
   })
 })
