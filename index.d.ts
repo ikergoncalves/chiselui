@@ -21,3 +21,4 @@ export * from './components/Pagination';
 export * from './components/Spinner';
 export * from './components/Progress';
 export * from './components/Popover';
+export * from './components/ThemeToggle';
