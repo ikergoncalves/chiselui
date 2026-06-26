@@ -50,6 +50,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o storybook-static",
     "deploy-storybook": "gh-pages -d storybook-static",
+    "chromatic": "chromatic --exit-zero-on-changes",
     "prepublishOnly": "npm test -- --run && npm run build"
   },
   "peerDependencies": {
@@ -70,6 +71,7 @@
     "@vitejs/plugin-react": "^4.3.0",
     "@vitest/coverage-v8": "^2.1.9",
     "axe-core": "^4.12.1",
+    "chromatic": "^17.7.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "gh-pages": "^6.3.0",
