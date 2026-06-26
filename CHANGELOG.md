@@ -5,6 +5,17 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-06-25
+
+### Added
+- Dark mode support via CSS Variables tokens
+- ThemeToggle component with light/dark/system cycling
+- Storybook theme toolbar with native dark/light switching
+
+### Fixed
+- Badge, Toast and Progress variant colors now adapt to dark mode
+- Tooltip text color corrected for dark backgrounds
+
 ## [0.4.0] - 2026-06-25
 
 ### Added

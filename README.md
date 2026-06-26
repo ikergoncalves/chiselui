@@ -69,6 +69,33 @@ of overriding tokens on `:root` (or any scope):
 }
 ```
 
+## Dark mode
+
+chiselui ships dark mode out of the box. It activates automatically
+via `prefers-color-scheme`, or you can force it manually:
+
+```css
+/* Force dark */
+[data-theme="dark"] { }
+
+/* Force light */
+[data-theme="light"] { }
+```
+
+Use the `ThemeToggle` component to give users control:
+
+```tsx
+import { ThemeToggle } from 'chiselui'
+
+export function App() {
+  return (
+    <header>
+      <ThemeToggle />
+    </header>
+  )
+}
+```
+
 ## Components
 
 | Component   | Status     | Description                                              |
@@ -97,6 +124,7 @@ of overriding tokens on `:root` (or any scope):
 | `Progress`  | ✅ Stable  | Determinate progress bar and circular ring.                   |
 | `Drawer`    | ✅ Stable  | Sliding panel with left, right, top and bottom placements.    |
 | `Popover`   | ✅ Stable  | Click-triggered floating panel with focus trap support.       |
+| `ThemeToggle` | ✅ Stable  | Light/dark/system theme toggle with localStorage persistence. |
 
 ## Documentation
 
