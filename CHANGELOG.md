@@ -5,6 +5,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-06-25
+
+### Added
+- NumberInput component with decimal, currency, percent and unit masks
+- FileUpload component with drag-and-drop and image previews
+- ColorPicker component with HSV spectrum, hue slider and hex input
+- axe-core accessibility checks integrated into all component tests
+- Chromatic visual regression testing via GitHub Actions
+- Composition stories: ContactForm, SettingsPanel, UserDashboard
+- View Transitions API animation for theme switching
+- Bundle size badges and Performance section in README
+
 ## [0.5.0] - 2026-06-25
 
 ### Added

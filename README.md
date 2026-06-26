@@ -129,6 +129,9 @@ export function App() {
 | `Drawer`    | ✅ Stable  | Sliding panel with left, right, top and bottom placements.    |
 | `Popover`   | ✅ Stable  | Click-triggered floating panel with focus trap support.       |
 | `ThemeToggle` | ✅ Stable  | Light/dark/system theme toggle with localStorage persistence. |
+| `NumberInput` | ✅ Stable  | Numeric field with decimal, currency, percent and unit formatting. |
+| `FileUpload`  | ✅ Stable  | Drag-and-drop file upload with previews and file list.             |
+| `ColorPicker` | ✅ Stable  | HSV color picker with spectrum, hue slider and hex input.          |
 
 ## Performance
 
