@@ -4,25 +4,18 @@
 
 [![CI](https://github.com/ikergoncalves/chiselui/actions/workflows/ci.yml/badge.svg)](https://github.com/ikergoncalves/chiselui/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/chiselui)](https://www.npmjs.com/package/chiselui)
-[![license](https://img.shields.io/npm/l/chiselui)](https://github.com/ikergoncalves/chiselui/blob/main/LICENSE)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/chiselui)](https://bundlephobia.com/package/chiselui)
 [![Tree Shaking](https://img.shields.io/bundlephobia/tree-shaking/chiselui)](https://bundlephobia.com/package/chiselui)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Chromatic](https://img.shields.io/badge/visual%20tests-chromatic-fc521f)](https://www.chromatic.com)
+[![license](https://img.shields.io/npm/l/chiselui)](https://github.com/ikergoncalves/chiselui/blob/main/LICENSE)
 
-## Why chiselui
+chiselui is a React + TypeScript component library built on plain CSS custom
+properties — override a few `--color-*` / `--space-*` tokens on `:root` and the
+whole system re-themes, with no Tailwind config or CSS-in-JS runtime. It ships
+28 accessible components with dark mode out of the box, strict TypeScript types,
+and full tree-shaking with zero runtime dependencies.
 
-I built chiselui on plain CSS Variables because I wanted theming to be a runtime
-concern the browser already understands — override a handful of `--color-*` /
-`--space-*` tokens on `:root` and the whole system re-themes, with no Tailwind
-build step to configure and no CSS-in-JS runtime shipping styles on every render.
-I reach for Vite library mode rather than a pre-wired bundler kit so the build
-stays a few lines I actually own: ESM + CJS output and hand-checked `.d.ts`,
-nothing hidden behind a framework. And unlike shadcn/ui, chiselui is a real
-versioned npm dependency you `npm install` and upgrade — not source you copy into
-your repo and then maintain by hand.
-
-## Install
+## Installation
 
 ```bash
 npm install chiselui
@@ -31,7 +24,7 @@ npm install chiselui
 `react` and `react-dom` (**v18+**) are peer dependencies — install them in your
 app if you haven't already.
 
-## Quick start
+## Usage
 
 ```tsx
 import { Button, ToastProvider, useToast } from 'chiselui'
@@ -55,47 +48,6 @@ export function App() {
     <ToastProvider>
       <SaveButton />
     </ToastProvider>
-  )
-}
-```
-
-## Theming
-
-Every component reads from CSS custom properties, so retheming is just a matter
-of overriding tokens on `:root` (or any scope):
-
-```css
-:root {
-  --color-primary: #0ea5e9;
-  --color-primary-hover: #0284c7;
-  --radius-md: 6px;
-  --space-4: 1rem;
-}
-```
-
-## Dark mode
-
-chiselui ships dark mode out of the box. It activates automatically
-via `prefers-color-scheme`, or you can force it manually:
-
-```css
-/* Force dark */
-[data-theme="dark"] { }
-
-/* Force light */
-[data-theme="light"] { }
-```
-
-Use the `ThemeToggle` component to give users control:
-
-```tsx
-import { ThemeToggle } from 'chiselui'
-
-export function App() {
-  return (
-    <header>
-      <ThemeToggle />
-    </header>
   )
 }
 ```
@@ -133,19 +85,21 @@ export function App() {
 | `FileUpload`  | ✅ Stable  | Drag-and-drop file upload with previews and file list.             |
 | `ColorPicker` | ✅ Stable  | HSV color picker with spectrum, hue slider and hex input.          |
 
-## Performance
+## Dark mode
 
-chiselui is designed to be as small as possible:
-
-- **Zero runtime dependencies** (except `@floating-ui/react` for
-  Popover and Tooltip positioning)
-- **Full tree-shaking support** — import only what you use
-- **Pure CSS Variables** — no CSS-in-JS runtime overhead
-- **~44 kB CSS + ~66 kB JS** (minified, before gzip)
+Dark mode follows `prefers-color-scheme` automatically, or you can force a theme
+with `data-theme`. Drop in `ThemeToggle` to give users control:
 
 ```tsx
-// Only Button and Badge are included in your bundle
-import { Button, Badge } from 'chiselui'
+import { ThemeToggle } from 'chiselui'
+
+export function App() {
+  return (
+    <header>
+      <ThemeToggle />
+    </header>
+  )
+}
 ```
 
 ## Documentation
