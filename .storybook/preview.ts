@@ -10,7 +10,13 @@ import { chiselTheme, readMode, THEME_STORAGE_KEY, type ThemeChoice } from './th
 // Reflect the toolbar's theme choice onto <html>, the same way the ThemeToggle
 // component does: an explicit `data-theme` for light/dark, or no attribute for
 // `system` so the tokens follow the OS `prefers-color-scheme`. This drives the
-// component canvas (and the inline previews inside Docs) live.
+// regular component canvas live.
+//
+// We also mirror the attribute onto `context.canvasElement` — the DOM container
+// Storybook renders each story into. In the Docs page the inline previews render
+// into their own canvas outside <html>'s themed context, so without this the
+// design tokens (and the surface background) stay light there even in dark mode.
+// `canvasElement` is absent in non-browser contexts (SSR, tests), so it's guarded.
 //
 // The Storybook chrome — the manager UI and the Docs page — is themed once at
 // load and can't react to the toggle live (see manager.ts), so we also persist
@@ -18,10 +24,13 @@ import { chiselTheme, readMode, THEME_STORAGE_KEY, type ThemeChoice } from './th
 const withTheme: Decorator = (Story, context) => {
   const theme = context.globals.theme as ThemeChoice
   const root = document.documentElement
+  const canvas = context.canvasElement as HTMLElement | undefined
   if (theme === 'system') {
     root.removeAttribute('data-theme')
+    canvas?.removeAttribute('data-theme')
   } else {
     root.setAttribute('data-theme', theme)
+    canvas?.setAttribute('data-theme', theme)
   }
   localStorage.setItem(THEME_STORAGE_KEY, theme)
   return Story(context)
