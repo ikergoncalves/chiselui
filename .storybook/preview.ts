@@ -7,31 +7,66 @@ import '../src/styles/base.css'
 
 import { chiselTheme, readMode, THEME_STORAGE_KEY, type ThemeChoice } from './theme'
 
+// Reflect a theme choice onto a single element: an explicit `data-theme` for
+// light/dark, or no attribute for `system` so the tokens follow the OS
+// `prefers-color-scheme`.
+function reflectTheme(target: HTMLElement, theme: ThemeChoice): void {
+  if (theme === 'system') {
+    target.removeAttribute('data-theme')
+  } else {
+    target.setAttribute('data-theme', theme)
+  }
+}
+
+// Canvases Storybook is currently rendering into. The internal ThemeToggle sets
+// `data-theme` on <html>, which the isolated Docs canvas ignores, so we relay its
+// `chiselui:theme-change` event onto every live canvas. A module-level Set with a
+// single listener avoids re-registering (and leaking) a handler per re-render;
+// disconnected canvases are pruned as they're encountered. We deliberately avoid
+// a React `useEffect` here: a Storybook decorator is invoked as a plain function,
+// not mounted as a component, so calling React hooks inside it isn't reliable.
+const canvases = new Set<HTMLElement>()
+let listening = false
+
+function startCanvasSync(): void {
+  if (listening) return
+  listening = true
+  document.addEventListener('chiselui:theme-change', (event) => {
+    const next = (event as CustomEvent<{ theme: ThemeChoice }>).detail.theme
+    for (const canvas of canvases) {
+      if (canvas.isConnected) {
+        reflectTheme(canvas, next)
+      } else {
+        canvases.delete(canvas)
+      }
+    }
+  })
+}
+
 // Reflect the toolbar's theme choice onto <html>, the same way the ThemeToggle
-// component does: an explicit `data-theme` for light/dark, or no attribute for
-// `system` so the tokens follow the OS `prefers-color-scheme`. This drives the
-// regular component canvas live.
+// component does. This drives the regular component canvas live.
 //
 // We also mirror the attribute onto `context.canvasElement` — the DOM container
 // Storybook renders each story into. In the Docs page the inline previews render
 // into their own canvas outside <html>'s themed context, so without this the
 // design tokens (and the surface background) stay light there even in dark mode.
 // `canvasElement` is absent in non-browser contexts (SSR, tests), so it's guarded.
+// Each canvas is also registered for live sync with the internal ThemeToggle.
 //
 // The Storybook chrome — the manager UI and the Docs page — is themed once at
 // load and can't react to the toggle live (see manager.ts), so we also persist
 // the choice here for those surfaces to pick up on the next load.
 const withTheme: Decorator = (Story, context) => {
   const theme = context.globals.theme as ThemeChoice
-  const root = document.documentElement
+  reflectTheme(document.documentElement, theme)
+
   const canvas = context.canvasElement as HTMLElement | undefined
-  if (theme === 'system') {
-    root.removeAttribute('data-theme')
-    canvas?.removeAttribute('data-theme')
-  } else {
-    root.setAttribute('data-theme', theme)
-    canvas?.setAttribute('data-theme', theme)
+  if (canvas) {
+    reflectTheme(canvas, theme)
+    canvases.add(canvas)
+    startCanvasSync()
   }
+
   localStorage.setItem(THEME_STORAGE_KEY, theme)
   return Story(context)
 }

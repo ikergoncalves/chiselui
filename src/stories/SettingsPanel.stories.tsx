@@ -114,7 +114,17 @@ export function SettingsPanel() {
         <div
           style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}
         >
-          <h2 style={{ margin: 0, fontSize: 'var(--font-size-lg)' }}>Settings</h2>
+          <h2
+            style={{
+              margin: 0,
+              fontSize: 'var(--font-size-lg)',
+              // Re-resolve the token at this element so it follows the themed
+              // canvas in Docs (where data-theme lives on the canvas, not <html>).
+              color: 'var(--color-neutral-900)',
+            }}
+          >
+            Settings
+          </h2>
           <Badge variant="info">Beta</Badge>
         </div>
         <ThemeToggle />
