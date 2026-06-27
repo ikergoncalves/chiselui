@@ -55,6 +55,17 @@ function applyTheme(theme: ThemeValue): void {
     } else {
       root.setAttribute('data-theme', theme)
     }
+
+    // <html> is the wrong target for Storybook's isolated Docs canvas, whose
+    // inline previews render into their own container. Announce the change so
+    // any listener (e.g. the Storybook decorator) can mirror it onto the local
+    // canvas. Harmless in apps that never listen.
+    document.dispatchEvent(
+      new CustomEvent<{ theme: ThemeValue }>('chiselui:theme-change', {
+        detail: { theme },
+        bubbles: true,
+      }),
+    )
   }
 
   // View Transitions API: anima a troca de tema com um fade suave.
