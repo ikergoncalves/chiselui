@@ -5,6 +5,10 @@ import '../src/styles/reset.css'
 import '../src/tokens/index.css'
 import '../src/styles/base.css'
 
+// Storybook-only styling: paints the Docs inline canvases with our surface token.
+// Imported after the tokens so the `var(--color-surface)` references resolve.
+import './preview.css'
+
 import { chiselTheme, readMode, THEME_STORAGE_KEY, type ThemeChoice } from './theme'
 
 // Reflect a theme choice onto a single element: an explicit `data-theme` for
@@ -16,6 +20,16 @@ function reflectTheme(target: HTMLElement, theme: ThemeChoice): void {
   } else {
     target.setAttribute('data-theme', theme)
   }
+}
+
+// Paint a Docs canvas with the active theme's surface. `data-theme` is set on the
+// same element, so `var(--color-surface)` resolves to the right value and, because
+// it stays a live `var()` reference, re-resolves automatically when the theme
+// changes on that element. Without this the canvas keeps Storybook's fixed light
+// background and dark stories render on a light box.
+function paintCanvasSurface(canvas: HTMLElement): void {
+  canvas.style.backgroundColor = 'var(--color-surface)'
+  canvas.style.transition = 'background-color 0.2s ease'
 }
 
 // Canvases Storybook is currently rendering into. The internal ThemeToggle sets
@@ -36,6 +50,7 @@ function startCanvasSync(): void {
     for (const canvas of canvases) {
       if (canvas.isConnected) {
         reflectTheme(canvas, next)
+        paintCanvasSurface(canvas)
       } else {
         canvases.delete(canvas)
       }
@@ -63,6 +78,7 @@ const withTheme: Decorator = (Story, context) => {
   const canvas = context.canvasElement as HTMLElement | undefined
   if (canvas) {
     reflectTheme(canvas, theme)
+    paintCanvasSurface(canvas)
     canvases.add(canvas)
     startCanvasSync()
   }

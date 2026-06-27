@@ -1,0 +1,16 @@
+/* chiselui — Storybook Docs canvas theming
+ *
+ * The Docs page renders each story into an isolated inline canvas that doesn't
+ * pick up a surface background from our tokens — it falls back to Storybook's
+ * fixed light canvas, so dark mode looked light there. The decorator sets
+ * `data-theme` on each canvas (see preview.ts), so `--color-surface` resolves to
+ * the active theme's value on these wrappers; we just need to actually paint it.
+ *
+ * The `!important` is intentional: it overrides Storybook's own canvas styles.
+ * The transition matches the live theme switch driven by the internal ThemeToggle.
+ */
+.docs-story,
+.sb-story {
+  background-color: var(--color-surface) !important;
+  transition: background-color 0.2s ease;
+}
