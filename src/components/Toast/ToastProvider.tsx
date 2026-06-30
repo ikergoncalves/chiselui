@@ -1,6 +1,7 @@
 import {
   type ReactNode,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -40,6 +41,15 @@ export function ToastProvider({
   const [toasts, setToasts] = useState<ToastItem[]>([])
   // Monotonic id source. A ref keeps it stable across renders without re-seeding.
   const idRef = useRef(0)
+  // The toast region portals onto `document.body`, which doesn't exist during SSR
+  // or static prerendering. Gate the portal behind a mount flag so the server (and
+  // the first client render, for hydration parity) renders a pure provider, and the
+  // portal only appears once the effect has run on the client.
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const remove = useCallback((id: number) => {
     setToasts((current) => current.filter((item) => item.id !== id))
@@ -77,20 +87,21 @@ export function ToastProvider({
   return (
     <ToastContext.Provider value={value}>
       {children}
-      {createPortal(
-        <div className="chs-toast-region" role="status" aria-live="polite">
-          {toasts.map((item) => (
-            <Toast
-              key={item.id}
-              message={item.message}
-              variant={item.variant}
-              leaving={item.leaving}
-              onDismiss={() => dismiss(item.id)}
-            />
-          ))}
-        </div>,
-        document.body,
-      )}
+      {mounted &&
+        createPortal(
+          <div className="chs-toast-region" role="status" aria-live="polite">
+            {toasts.map((item) => (
+              <Toast
+                key={item.id}
+                message={item.message}
+                variant={item.variant}
+                leaving={item.leaving}
+                onDismiss={() => dismiss(item.id)}
+              />
+            ))}
+          </div>,
+          document.body,
+        )}
     </ToastContext.Provider>
   )
 }

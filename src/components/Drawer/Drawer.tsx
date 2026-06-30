@@ -4,6 +4,7 @@ import {
   useEffect,
   useId,
   useRef,
+  useState,
 } from 'react'
 import { createPortal } from 'react-dom'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
@@ -59,8 +60,16 @@ export function Drawer({
 }: DrawerProps) {
   const dialogRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
+  // The panel portals onto `document.body`, which doesn't exist during SSR or
+  // static prerendering. Stay unrendered until the component has mounted on the
+  // client so the server never touches `document`.
+  const [mounted, setMounted] = useState(false)
 
   useFocusTrap(dialogRef, isOpen)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Escape-to-close, bound on the document so it works wherever focus sits within
   // the trapped panel.
@@ -84,7 +93,7 @@ export function Drawer({
     }
   }, [isOpen])
 
-  if (!isOpen) return null
+  if (!isOpen || !mounted) return null
 
   const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
     // Only the backdrop itself closes — a click that bubbled up from the panel
